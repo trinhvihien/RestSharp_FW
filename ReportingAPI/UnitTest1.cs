@@ -107,18 +107,21 @@ namespace ReportingAPI
             Console.WriteLine("Json " + parsed.ToString());
         }
 
-        [Test]
-        public void testFailed()
+        
+        [Test, Category("API Test")]
+        [TestCaseSource(typeof(TestData), "GetTestData", new object[] { @"C:\qa\RestSharp_FW\ReportingAPI\Data\Endpoint.csv" })]
+        public void test_dataDrivenCSV( Dictionary <string, string> data)
         {
-            BaseClient baseClient = new BaseClient("https://openlibrary.orgdf");
-
-            var parameters = new Dictionary<string, string>  {
-                    { "bibkeys", "ISBN:0385472579,LCCN: 62019420" },
-                    { "format", "json" }
-            };
-
-            baseClient.buildUrlParams(parameters);
-            baseClient.sendGetRequest();
+            NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+            
+            foreach (var d in data)
+            {
+                Console.WriteLine("data driven: " + d.Key + ":" + d.Value);
+                logger.Info("data driven: " + d.Key + ":" + d.Value);
+            }
+            
         }
+
+        
     }
 }

@@ -11,6 +11,9 @@ namespace ReportingAPI.EndPoints
     {
         BaseClient baseClient = new BaseClient("https://openlibrary.org/api/books");
 
+        //initSearchBookBody()
+        //init each part of JObject and merge into one body
+
         public void SearchBook()
         {
             var parameters = new Dictionary<string, string>  {
