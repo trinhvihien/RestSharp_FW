@@ -21,35 +21,30 @@ namespace ReportingAPI.Models
     /// this the way deserialize object
    // var customerDto = JsonConvert.DeserializeObject<CustomerDto>(response.Content);
     /*
-     * 
-     * var client = new RestClient("https://TestWeb");
-
-var request = new RestRequest("login", Method.POST);
-request.AddHeader("Content-type", "application/json");
-
-var body = new
-{
-    credentials =
-        new AuthenticationInfos()
+    
+        var body = new
         {
-            Username = "Uname",
-            Password = "password",
-            ApiKey = "myApiKey"
+            credentials =
+                new AuthenticationInfos()
+                {
+                    Username = "Uname",
+                    Password = "password",
+                    ApiKey = "myApiKey"
+                }
+        };
+
+        var serializedBody = JsonConvert.SerializeObject(body);
+        request.AddParameter("application/json", serializedBody, ParameterType.RequestBody);
+        The body will be like:
+
+        {
+            "credentials":
+            {
+                "username": "Uname", 
+                "password": "password",
+                "Api-Key": "myApiKey"
+            }
         }
-};
-
-var serializedBody = JsonConvert.SerializeObject(body);
-request.AddParameter("application/json", serializedBody, ParameterType.RequestBody);
-The body will be like:
-
-{
-    "credentials":
-    {
-        "username": "Uname", 
-        "password": "password",
-        "Api-Key": "myApiKey"
-    }
-}
 
 https://www.toolsqa.com/rest/deserialize-json-response-3/
 

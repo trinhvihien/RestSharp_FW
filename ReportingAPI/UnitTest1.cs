@@ -7,6 +7,7 @@ using NUnit.Framework;
 using ReportingAPI.Core;
 using ReportingAPI.EndPoints;
 using ReportingAPI.Models;
+using ReportingAPI.Template;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace ReportingAPI
             //https://stackoverflow.com/questions/44122398/object-to-json-issue-in-restsharp
 
             //https://docs.nunit.org/articles/nunit/running-tests/Console-Command-Line.html
+
+            //https://json2csharp.com/
         }
 
         [Test(Description = "api fund", Author = "hien")]
@@ -48,7 +51,7 @@ namespace ReportingAPI
         [AllureOwner("User")]
         [AllureSuite("PassedSuite")]
         [AllureSubSuite("NoAssert")]
-        public void Test_API()
+        public void Test_DeserializeObject()
         {
 
             string data = "{\"ID\": 123,\"Name\": \"Afzaal Ahmad Zeeshan\",\"Gender\":true, \"DateOfBirth\": \"1995-08-29T00:00:00\", \"DOB\": \"19T00:00:00\"}";
@@ -64,7 +67,7 @@ namespace ReportingAPI
         }
 
         [Test]
-        public void testJson()
+        public void testManipulateJson()
         {
             var data = @"{
                 ""data1"": {
@@ -79,10 +82,29 @@ namespace ReportingAPI
             }"; //variable with json string
 
             dynamic myData = JObject.Parse(data);
-
-
             Console.WriteLine($"EntityList:{myData.data1.EntityList}, KeyName:{myData.data1.KeyName}");
 
+            //Read from template
+            JObject parsed = JObject.Parse(TEMOpenWeather.SomeAPIBodyJson);
+            var node = parsed.SelectToken("data.title").Value<string>();
+            var dateNode = parsed.SelectToken("data.created_date").Value<DateTime>();
+            Console.WriteLine(node);
+            Console.WriteLine(dateNode);
+
+            //demo to update a node in json
+            parsed["data"]["title"] = "updated the title in json";
+            node = parsed.SelectToken("data.title").Value<string>();
+            Console.WriteLine(node);
+
+            //merge 2 json : Override
+            JObject jObject2 = JObject.Parse(TEMOpenWeather.JsonToMerge);
+            parsed.Merge(jObject2);
+            Console.WriteLine("Json " + parsed.ToString());
+
+            //merge 2 json : append to original
+            jObject2 = JObject.Parse(TEMOpenWeather.JsonToAppend);
+            parsed["data"]["updated_date"] = jObject2;
+            Console.WriteLine("Json " + parsed.ToString());
         }
 
         [Test]

@@ -28,7 +28,7 @@ namespace ReportingAPI.Core
         public IRestRequest buildHeaders (Dictionary<string, string> headers)
         {
             //Add some default in headers
-            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.AddHeader("Content-Type", "application/json");
 
             foreach (var header in headers)
             {
