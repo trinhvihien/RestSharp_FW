@@ -1,0 +1,10 @@
+{
+  "allure": {
+    "directory": "C:\\qa\\allure-results",
+    "links": [
+      "{link}",
+      "https://testrail.com/browse/{tms}",
+      "https://jira.com/browse/{issue}"
+    ]
+  }
+}

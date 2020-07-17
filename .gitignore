@@ -1,0 +1,9 @@
+/.vs/ReportingAPI/DesignTimeBuild/*.dtbcache
+/.vs/ReportingAPI/v16/*.suo
+/.vs/ReportingAPI/v16/Server/sqlite3/*.lock
+/.vs/ReportingAPI/v16/Server/sqlite3/*.ide
+/.vs/ReportingAPI/v16/Server/sqlite3/*.ide-shm
+/.vs/ReportingAPI/v16/Server/sqlite3/*.ide-wal
+/.vs/ReportingAPI/v16/TestStore/0/*.testlog
+/.vs/ReportingAPI/v16/TestStore/0/*.manifest
+/ReportingAPI/bin
