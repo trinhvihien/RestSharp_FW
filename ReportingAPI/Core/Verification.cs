@@ -6,5 +6,6 @@ namespace ReportingAPI.Core
 {
     class Verification
     {
+        //Common assert 
     }
 }

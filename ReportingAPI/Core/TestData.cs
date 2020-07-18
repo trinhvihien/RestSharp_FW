@@ -22,7 +22,6 @@ namespace ReportingAPI.Core
             {
                 string line = string.Empty;
                 
-
                 //handle FIRST row as key
                 line = sr.ReadLine();
                 if (line != null)
@@ -61,6 +60,62 @@ namespace ReportingAPI.Core
                 }
 
                 return dataList;
+            }
+
+        }
+      
+        //both works, 
+        public static IEnumerable<TestCaseData> GetTestDatav2(string dataFile)
+        {
+
+            var testCases = new List<object>();
+            char delimeter = '\t';
+
+           
+            var keys = new List<string>();
+
+            using (var fs = File.OpenRead(dataFile))
+            using (var sr = new StreamReader(fs))
+            {
+                string line = string.Empty;
+
+                //handle FIRST row as key
+                line = sr.ReadLine();
+                if (line != null)
+                {
+                    string[] split = line.Split(new char[] { delimeter },
+                           StringSplitOptions.None);
+
+                    foreach (var s in split)
+                    {
+                        keys.Add(s);
+                    }
+                }
+
+                //handle data content
+                while (line != null)
+                {
+                    line = sr.ReadLine();
+
+                    if (line != null)
+                    {
+                        string[] split = line.Split(new char[] { delimeter },
+                            StringSplitOptions.None);
+
+                        var data = new Dictionary<string, string>();
+
+                        for (int i = 0; i < split.Length; i++)
+                        {
+                            data.Add(keys[i], split[i]);
+                        }
+
+                        var newDictionary = data.ToDictionary(entry => entry.Key,
+                                               entry => entry.Value);
+
+                        yield return new TestCaseData(newDictionary);
+                    }
+                }
+               
             }
 
         }

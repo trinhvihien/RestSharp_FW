@@ -35,8 +35,17 @@ namespace ReportingAPI
         [AllureSeverity(SeverityLevel.minor)]
         [AllureSubSuite("sub smoke Test")]
 
+
         public void Test_Books()
         {
+            //We use triple AAA
+            //Arrange (prepare json body, headers, params for the REST requset)
+
+            //Act (send & check status CODE)
+
+            //Assert (check the response)
+
+           
             Book book = new Book();
             book.SearchBook();
 
@@ -109,7 +118,9 @@ namespace ReportingAPI
 
         
         [Test, Category("API Test")]
-        [TestCaseSource(typeof(TestData), "GetTestData", new object[] { @"C:\qa\RestSharp_FW\ReportingAPI\Data\Endpoint.csv" })]
+        [TestCaseSource(typeof(TestData), nameof(TestData.GetTestData), new object[] { @"C:\qa\RestSharp_FW\ReportingAPI\Data\APITestData.csv" })]
+        [AllureTag("Regression")]
+        [AllureSeverity(SeverityLevel.critical)]
         public void test_dataDrivenCSV( Dictionary <string, string> data)
         {
             NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -119,9 +130,44 @@ namespace ReportingAPI
                 Console.WriteLine("data driven: " + d.Key + ":" + d.Value);
                 logger.Info("data driven: " + d.Key + ":" + d.Value);
             }
-            
+
+            Assert.AreEqual(data["Desc"], "13", "try data driven");
         }
 
-        
+
+        [TestCase (TestName = "Test case cannot have TestCaseSource for data driven. It could have args")]
+        public void test_displayedTestCaseInfo()
+        {
+
+            Console.WriteLine("Test Name:  "+ TestContext.CurrentContext.Test.Name);
+            Console.WriteLine("Test Method Name:  " + TestContext.CurrentContext.Test.MethodName);
+            Console.WriteLine("Test full Name:  " + TestContext.CurrentContext.Test.FullName);
+
+            Console.WriteLine("WorkDirectory :  " + TestContext.CurrentContext.WorkDirectory);
+            Console.WriteLine("TestDirectory :  " + TestContext.CurrentContext.TestDirectory);
+
+            Console.WriteLine("Result :  " + TestContext.CurrentContext.Result);
+
+        }
+
+
+        [Test, Category("API Test")]
+        [TestCaseSource(typeof(TestData), nameof(TestData.GetTestDatav2), new object[] { @"C:\qa\RestSharp_FW\ReportingAPI\Data\APITestData.csv" })]
+        [AllureTag("Regression")]
+        [AllureSeverity(SeverityLevel.critical)]
+        public void test_dataDrivenWithYield(Dictionary<string, string> data)
+        {
+            NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+            foreach (var d in data)
+            {
+                Console.WriteLine("data driven: " + d.Key + ":" + d.Value);
+                logger.Info("data driven: " + d.Key + ":" + d.Value);
+            }
+
+            Assert.AreEqual(data["Desc"], "13", "try data driven");
+        }
+
+        ///POST https://openaccessbutton.org/api
     }
 }
