@@ -50,6 +50,7 @@ namespace ReportingAPI.Core
 
         public IRestResponse sendPostRequest(string jsonBody)
         {
+          
             request.Method = Method.POST;
             request.AddParameter("application/json", jsonBody, ParameterType.RequestBody);
             return SendRequest();

@@ -36,7 +36,7 @@ namespace ReportingAPI
         [AllureSubSuite("sub smoke Test")]
 
 
-        public void Test_Books()
+        public void Test_GETAPiBooks()
         {
             //We use triple AAA
             //Arrange (prepare json body, headers, params for the REST requset)
@@ -166,6 +166,19 @@ namespace ReportingAPI
             }
 
             Assert.AreEqual(data["Desc"], "13", "try data driven");
+        }
+
+
+        [Test, Category("API Test")]
+        [AllureTag("Regression")]
+        [AllureSeverity(SeverityLevel.critical)]
+        public void test_DepositPost()
+        {
+            NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+            Deposit deposit = new Deposit();
+            deposit.createDeposit();
+
         }
 
         ///POST https://openaccessbutton.org/api
